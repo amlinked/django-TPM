@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+    <h3>{% trans 'My Projects' %}</h3>
+    <ul>
+    {% for list in object_list %}
+        <li>{{ list.title}}</li>
+    {% empty %}
+        <p>{% trans 'There are no Projects' %}</p>
+    {% endfor %}
+    </ul>
+{% endblock %}
