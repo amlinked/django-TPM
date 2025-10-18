@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+    <h3>{% trans 'Delete Projects' %}</h3>
+    <form method="POST">
+        {% csrf_token %}
+
+        {% comment %} {{form}} {% endcomment %}
+        
+        <input type="submit" value="delete"/>
+    </form>
+{% endblock %}

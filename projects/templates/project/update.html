@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <h3>{% trans 'Update Projects' %}</h3>
+    <form method="POST">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="Save"/>
+    </form>
+    {% include 'project/taskcreate.html'  %}
+    
+        <form method="POST" action="{% url 'project_delete' project.id %}">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+        </form>
+        
+{% endblock %}
