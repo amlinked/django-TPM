@@ -2,17 +2,129 @@
 {% load i18n %}
 
 {% block content %}
-    <h3>{% trans 'Update Projects' %}</h3>
-    <form method="POST">
-        {% csrf_token %}
-        {{form}}
-        <input type="submit" value="Save"/>
-    </form>
-    {% include 'project/taskcreate.html'  %}
+<div class="row g-4">
+    <!-- قسم المهام - Grid 8 (على اليسار) -->
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-1 h-100">
+            <div class="card-header bg-transparent border-bottom">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="text-nav fw-bold mb-0">
+                        <i class="bi bi-list-task me-2"></i>
+                        {% trans 'Tasks' %}
+                    </h5>
+                    <span class="badge bg-dark" style="background-color:#02132f !important;">
+                        {{ project.task_set.count }} {% trans 'Tasks' %}
+                    </span>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <!-- قائمة المهام مع Scroll -->
+                <div style="max-height: 600px; overflow-y: auto; margin-bottom: 1rem;">
+                    {% if project.task_set.all %}
+                    <ul class="list-group list-group-flush">
+                        {% for task in project.task_set.all %}
+                        <li class="list-group-item px-0 border-0 border-bottom">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <!-- Checkbox والوصف -->
+                                <div class="flex-grow-1">
+                                    <form method="post" action="{% url 'task_update' task.id %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <div class="form-check d-inline-flex align-items-center">
+                                            <input type="checkbox" 
+                                                   class="form-check-input me-2" 
+                                                   name="is_complated"
+                                                   id="task_{{ task.id }}"
+                                                   {% if task.is_complated %}checked{% endif %}
+                                                   onchange="this.form.submit()"
+                                                   style="cursor: pointer;">
+                                            <label class="form-check-label {% if task.is_complated %}text-decoration-line-through text-muted{% endif %}" 
+                                                   for="task_{{ task.id }}"
+                                                   style="cursor: pointer;">
+                                                {{ task.description }}
+                                            </label>
+                                        </div>
+                                    </form>
+                                </div>
+                                
+                                <!-- زر الحذف -->
+                                <form method="post" action="{% url 'task_delete' task.id %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-nav btn-sm ms-2">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="bi bi-clipboard-x display-4 text-muted mb-3"></i>
+                        <p class="text-muted">{% trans 'No tasks yet. Create your first task below.' %}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- نموذج إضافة مهمة جديدة -->
+                
+                        
+                        <form method="post" action="{% url 'task_create' %}">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{ project.id }}" name="project"/>
+                            <div class="input-group">
+                                <input type="text" 
+                                       class="form-control" 
+                                       placeholder="{% trans 'Enter task description...' %}" 
+                                       name="description"
+                                       required>
+                                <button type="submit" class="btn btn-dark" style="background-color:#02132f;">
+                                    <i class="bi bi-plus-lg me-1"></i>
+                                    {% trans 'Add' %}
+                                </button>
+                            </div>
+                        </form>
+                    
+                
+            </div>
+        </div>
+    </div>
     
-        <form method="POST" action="{% url 'project_delete' project.id %}">
-        {% csrf_token %}
-        <button type="submit">Delete</button>
-        </form>
-        
+    <!-- قسم تعديل المشروع - Grid 4 (على اليمين) - مثبت -->
+    <div class="col-lg-4">
+        <div class="card shadow-sm border-1" style="position: sticky; top: 20px;">
+            <div class="card-header bg-transparent border-bottom">
+                <h5 class="text-nav fw-bold mb-0">
+                    <i class="bi bi-pencil-square me-2"></i>
+                    {% trans 'Project Management' %}
+                </h5>
+            </div>
+            
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {% include 'common/form.html' %}
+                    
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-dark" style="background-color:#02132f;">
+                            <i class="bi bi-check-circle me-1"></i>
+                            {% trans 'Save Changes' %}
+                        </button>
+                        <a href="{% url 'project_list' %}" class="btn btn-outline-nav">
+                            <i class="bi bi-arrow-left me-1"></i>
+                            {% trans 'Back to Projects' %}
+                        </a>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="card-footer bg-transparent border-top">
+                <a href="{% url 'project_delete' project.id %}" class="btn btn-outline-nav btn-sm w-100">
+                    <i class="bi bi-trash me-1"></i>
+                    {% trans 'Delete Project' %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

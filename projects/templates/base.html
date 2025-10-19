@@ -1,13 +1,116 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Django TPM</title>
-</head>
-<body>
-    {% block content %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
-    {% endblock %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <style>
+        /* Modify the background color */
+
+        .navbar-custom {
+            background-color: #02132f;
+        }
+       .btn-no-hover:hover {
+            background-color: #02132f !important;
+            color: #ffffffff !important;
+            transform: none !important;
+            opacity: 1 !important;
+        }
+        .text-nav {
+            color: #02132f !important;
+        }
+        .btn-outline-nav {
+        color: #02132f;
+        border: 1px solid #02132f;
+        background-color: transparent;
+        transition: all 0.3s ease;
+        }
+
+        .btn-outline-nav:hover {
+            background-color: #02132f;
+            color: #fff;
+        }
+        .btn-light {
+            color: #02132f;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-light:hover {
+            background-color: #ffffffcc;
+            color: #02132f;
+        }
+        .btn-outline-light:hover {
+            background-color: #fff;
+            color: #02132f !important;
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+        }
+        .navbar-custom .form-control-sm.bg-light {
+            background-color: #f8f9fa !important;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #02132f;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-custom .form-control-sm.bg-light::placeholder {
+            color: #6c757d;
+        }
+
+        .navbar-custom .form-control-sm.bg-light:focus {
+            background-color: #fff !important;
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #02132f;
+            box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+        }
+
+        .navbar-custom .btn-light {
+            background-color: #f8f9fa;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #02132f;
+        }
+
+        .navbar-custom .btn-light:hover {
+            background-color: #fff;
+            color: #02132f;
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* responsive للشاشات الصغيرة */
+        @media (max-width: 991px) {
+            .navbar-custom form {
+                margin-top: 1rem;
+                width: 100%;
+            }
+            
+            .navbar-custom .input-group input {
+                width: 100% !important;
+                min-width: auto !important;
+            }
+        }
+    </style>
+</head>
+    <body class="d-flex flex-column min-vh-100"  >
+
+
+        {% include 'partials/header.html' %}
+
+
+        <main class="flex-shrink-0" style="background: #FFFFFF">
+            <div class="container mt-5">
+                {% block content %}
+                {% endblock %}
+            </div> 
+        </main>
+
+
+        {% include 'partials/footer.html' %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>

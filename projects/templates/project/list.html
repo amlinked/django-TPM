@@ -1,12 +1,128 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load humanize %}
+
 {% block content %}
-    <h3>{% trans 'My Projects' %}</h3>
-    <ul>
-    {% for list in project_list %}
-        <li>{{ list.title}} . <a href="{% url 'project_update' list.id %}">update</a></li>
-    {% empty %}
-        <p>{% trans 'There are no Projects' %}</p>
+
+
+  {% if project_list %}
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="text-dark fw-semibold">{% trans 'My Projects' %}</h3>
+    <a href="{% url 'project_create' %}" class="btn btn-dark" style="background-color:#02132f;">
+      <i class="bi bi-plus-circle me-1"></i> {% trans 'Add Project' %}
+    </a>
+    </div>
+
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 ">
+    {% for project in project_list %}
+      <div class="col">
+        <div class="card shadow-sm h-100 border-1">
+          <div class="card-body">
+            <h5 class="card-title text-nav fw-bold">{{ project.title }}</h5>
+            <p class="text-secondary mb-1">
+              <strong>Status:</strong> 
+              <span class="badge rounded-pill bg-dark">
+                        {{ project.get_status_display }}
+                    </span>
+            </p>
+            <p class="text-muted mt-3"> {{ project.description|default:"No description provided." }} </p>
+          </div>
+          <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center">
+            <small class="text-muted">
+              <i class="bi bi-calendar3 me-1"></i> {{ project.created_at|naturaltime }}
+            </small>
+            <div class="btn-group">
+              <a href="{% url 'project_update' project.id %}" class="btn btn-outline-nav btn-sm">
+                <i class="bi bi-pencil-square"></i> 
+              </a>
+              <a href="{% url 'project_delete' project.id %}" class="btn btn-outline-nav btn-sm">
+                <i class="bi bi-trash"></i> 
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     {% endfor %}
+  </div>
+
+
+    {# Pagination #}
+  {% if page_obj.paginator.count > 0 %}
+  <nav aria-label="Page navigation" class="mt-5">
+    <ul class="pagination justify-content-center ">
+      {# Previous Button #}
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Previous">
+            <span aria-hidden="true">
+              <i class="bi bi-chevron-left me-1"></i>
+              {% trans 'Back' %}
+            </span>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">
+            <i class="bi bi-chevron-left me-1"></i>
+            {% trans 'Back' %}
+          </span>
+        </li>
+      {% endif %}
+
+      {# Page Numbers #}
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <li class="page-item active" aria-current="page">
+            <span class="page-link" style="background-color:#02132f; border-color:#02132f;">
+              {{ num }}
+            </span>
+          </li>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <li class="page-item">
+            <a class="page-link text-nav" href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+              {{ num }}
+            </a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {# Next Button #}
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Next">
+            <span aria-hidden="true">
+              {% trans 'Next' %}
+              <i class="bi bi-chevron-right ms-1"></i>
+            </span>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">
+            {% trans 'Next' %}
+            <i class="bi bi-chevron-right ms-1"></i>
+          </span>
+        </li>
+      {% endif %}
     </ul>
+  </nav>
+  {% endif %}
+
+
+
+  {% else %}
+  <div class="d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+    <div class="card border-0 text-center py-5" style="max-width: 500px; width: 100%;">
+      <div class="card-body">
+        <i class="bi bi-folder2-open display-1 text-muted mb-3"></i>
+        <h5 class="text-dark fw-semibold mb-2">{% trans 'No Projects Yet' %}</h5>
+        <p class="text-muted mb-4">{% trans 'Start by creating your first project to get organized.' %}</p>
+        <a href="{% url 'project_create' %}" class="btn btn-dark border-1" style="background-color:#02132f;">
+          <i class="bi bi-plus-circle me-1"></i> {% trans 'Create Project' %}
+        </a>
+      </div>
+    </div>
+  </div>
+  {% endif %}
 {% endblock %}

@@ -1,0 +1,52 @@
+
+{% load i18n %}
+
+<nav class="navbar navbar-expand-lg navbar-custom navbar-dark shadow-sm">
+  <div class="container">
+    <!-- شعار الموقع -->
+    <a class="navbar-brand fw-semibold me-4" href="{% url 'project_list' %}">
+      <i class="bi bi-kanban me-2"></i>TPM
+    </a>
+    
+    <!-- زر الفتح في الشاشات الصغيرة -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <!-- الروابط -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto d-flex align-items-center">
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'project_list' %}active{% endif %}" 
+             href="{% url 'project_list' %}">
+            <i class="bi bi-folder2-open me-1"></i>
+            {% trans 'Projects' %}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'project_create' %}active{% endif %}" 
+             href="{% url 'project_create' %}">
+            <i class="bi bi-plus-circle me-1"></i>
+            {% trans 'Create' %}
+          </a>
+        </li>
+      </ul>
+      
+      <!-- نموذج البحث -->
+      <form method="GET" action="{% url 'project_list' %}" class="d-flex ms-auto" role="search">
+        <div class="input-group">
+          <input type="search" 
+                 class="form-control form-control-sm" 
+                 placeholder="{% trans 'Search projects...' %}" 
+                 name="search" 
+                 value="{{ request.GET.search }}"
+                 style="min-width: 200px;">
+          <button class="btn btn-light btn-sm" type="submit">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</nav>

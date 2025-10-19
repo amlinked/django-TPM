@@ -6,9 +6,9 @@ class ProjectCreateForm(forms.ModelForm):
         model = models.Project
         fields = ['category' ,'title' , 'description' ]
         widgets = {
-            'category' : forms.Select(),
-            'title' : forms.TextInput(),
-            'description' :forms.Textarea()
+            'category' : forms.Select(attrs={'class': 'form-select'}),
+            'title' : forms.TextInput(attrs={'class': 'form-control'}),
+            'description' :forms.Textarea(attrs={'class': 'form-control', 'rows': 6})
         }
         
 class ProjectUpdateForm(forms.ModelForm):
@@ -16,9 +16,9 @@ class ProjectUpdateForm(forms.ModelForm):
         model = models.Project
         fields = ['category' ,'title' , 'description' , 'status' ]
         widgets = {
-            'category' : forms.Select(),
-            'title' : forms.TextInput(),
-            'description' :forms.Textarea(),
-            'status' : forms.Select()
+            'category' : forms.Select(attrs={'class': 'form-select'}),
+            'title' : forms.TextInput(attrs={'class': 'form-control'}),
+            'description' :forms.Textarea(attrs={'class': 'form-control'}),
+            'status' : forms.Select(attrs={'class': 'form-select'})
             
         }        

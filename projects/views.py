@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import ListView , CreateView , UpdateView , DeleteView
 from django.urls import reverse_lazy  , reverse
+from django.db.models import Q
+
 from . import models
 from. import forms
 # Create your views here.
@@ -8,6 +10,18 @@ from. import forms
 class ProjectListView(ListView):
     model = models.Project
     template_name = 'project/list.html'
+    paginate_by = 9
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search_query = self.request.GET.get('search')
+        
+        if search_query:
+            queryset = queryset.filter(
+                Q(title__icontains=search_query) | 
+                Q(description__icontains=search_query)
+            )
+        return queryset
     
 class ProjectCreateView(CreateView):
     model = models.Project
@@ -26,7 +40,7 @@ class ProjectUpdateView(UpdateView):
  
 class ProjectDeleteView(DeleteView):
     model = models.Project
-    # template_name = 'project/delete.html'
+    template_name = 'project/delete.html'
     success_url = reverse_lazy('project_list')
     
        
