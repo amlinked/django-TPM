@@ -92,6 +92,36 @@
                 min-width: auto !important;
             }
         }
+        /* تحسين شكل الـ Dropdown */
+        .navbar-custom .dropdown-menu {
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+        }
+
+        .navbar-custom .dropdown-item {
+            transition: all 0.2s ease;
+        }
+
+        .navbar-custom .dropdown-item:hover {
+            background-color: #f8f9fa;
+            padding-left: 1.5rem;
+        }
+
+        .navbar-custom .dropdown-item.text-danger:hover {
+            background-color: #fff5f5;
+        }
+
+        .navbar-custom .dropdown-toggle::after {
+            margin-left: 0.5rem;
+        }
+
+        /* للشاشات الصغيرة */
+        @media (max-width: 991px) {
+            .dropdown-menu {
+                width: 100%;
+            }
+        }
     </style>
 </head>
     <body class="d-flex flex-column min-vh-100"  >

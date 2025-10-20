@@ -9,6 +9,6 @@ urlpatterns = [
    path('task_update/<int:pk>' , views.TaskUpdateView.as_view() , name= 'task_update') ,
    path('task_delete/<int:pk>' , views.TaskDeleteView.as_view() , name= 'task_delete') ,
    
-   
    path('',views.ProjectListView.as_view(), name='project_list'),
+   
 ]
