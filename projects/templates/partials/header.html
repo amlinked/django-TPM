@@ -85,7 +85,7 @@
               
               <!-- الروابط -->
               <li>
-                <a class="dropdown-item py-2" href="#">
+                <a class="dropdown-item py-2" href="{% url 'profile' %}">
                   <i class="bi bi-person me-2 text-nav"></i>
                   {% trans 'My Profile' %}
                 </a>
@@ -118,10 +118,10 @@
             <i class="bi bi-box-arrow-in-right me-1"></i>
             {% trans 'Login' %}
           </a>
-          <a href="" class="btn btn-sm fw-semibold" 
+          <a href="{% url 'register' %}" class="btn btn-sm fw-semibold" 
             style="background: linear-gradient(135deg, #0f2169ff 0%, #1888e4ff 100%); color: white; border: none;">
             <i class="bi bi-person-plus me-1"></i>
-            {% trans 'Sign Up' %}
+            {% trans 'Register' %}
           </a>
         </div>
       {% endif%}

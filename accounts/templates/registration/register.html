@@ -8,24 +8,24 @@
             <div class="card-body p-5">
                 <h3 class="text-nav fw-bold text-center mb-4">
                     <i class="bi bi-box-arrow-in-right me-2"></i>
-                    {% trans 'Login' %}
+                    {% trans 'Register' %}
                 </h3>
                 
                 <form method="POST">
                     {% csrf_token %}
                     {% include 'common/form.html' %}
                     
-                    <button type="submit" class="btn btn-dark w-100 mt-4" style="background-color:#02132f;">
+                    <button type="submit" class="btn btn-dark w-100 mt-4" style="background: linear-gradient(135deg, #0f2169ff 0%, #1888e4ff 100%); color: white; border: none;">
                         <i class="bi bi-check-circle me-1"></i>
-                        {% trans 'Login' %}
+                        {% trans 'Register' %}
                     </button>
                 </form>
                 
                 <div class="text-center mt-3">
                     <small class="text-muted">
-                        {% trans "Don't have an account?" %}
-                        <a href="{% url 'register' %}" class="text-nav fw-semibold">
-                            {% trans 'Register' %}
+                        {% trans "have an account?" %}
+                        <a href="{% url 'login' %}" class="text-nav fw-semibold">
+                            {% trans 'Login' %}
                         </a>
                     </small>
                 </div>
