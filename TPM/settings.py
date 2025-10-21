@@ -27,6 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.Argon2PasswordHasher',  # الأسرع والأقوى
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',  # للتوافق مع القديم
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+]
 
 # Application definition
 
@@ -74,6 +80,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'TPM.wsgi.application'
+
 
 
 # Database
@@ -133,10 +140,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # INTERNAL_IPS = [
-#     # ...
-#     "127.0.0.1",
-#     # ...
-# ]
+#      # ...
+#      "127.0.0.1",
+#      # ...
+#  ]
 
 LOGIN_REDIRECT_URL = 'profile'
 LOGOUT_REDIRECT_URL = 'login'

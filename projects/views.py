@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render , get_object_or_404
 from django.views.generic import ListView , CreateView , UpdateView , DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
 from django.urls import reverse_lazy  , reverse
 from django.db.models import Q
 
@@ -14,9 +14,9 @@ class ProjectListView(LoginRequiredMixin , ListView):
     paginate_by = 9
     
     def get_queryset(self):
-        queryset = super().get_queryset()
-        search_query = self.request.GET.get('search')
+        queryset = super().get_queryset().filter(user=self.request.user)
         
+        search_query = self.request.GET.get('search')
         if search_query:
             queryset = queryset.filter(
                 Q(title__icontains=search_query) | 
@@ -31,21 +31,33 @@ class ProjectCreateView(LoginRequiredMixin , CreateView):
     
     success_url = reverse_lazy('project_list')
     
-class ProjectUpdateView(LoginRequiredMixin , UpdateView):
+    def form_valid(self , form):
+        form.instance.user  = self.request.user
+        return super().form_valid(form)
+    
+class ProjectUpdateView(LoginRequiredMixin , UserPassesTestMixin , UpdateView):
     model = models.Project
     form_class = forms.ProjectUpdateForm
     template_name = 'project/update.html' 
     
     def get_success_url(self) :
         return reverse('project_update' , args=[self.object.id]) # type: ignore
+    
+    def test_func(self):
+        update = self.get_object()
+        return update.user == self.request.user # type: ignore
+
  
-class ProjectDeleteView(LoginRequiredMixin ,DeleteView):
+class ProjectDeleteView(LoginRequiredMixin , UserPassesTestMixin ,DeleteView):
     model = models.Project
     template_name = 'project/delete.html'
     success_url = reverse_lazy('project_list')
     
+    def test_func(self):
+        update = self.get_object()
+        return update.user == self.request.user # type: ignore
        
-class TaskCreateView(LoginRequiredMixin , CreateView):
+class TaskCreateView(LoginRequiredMixin , UserPassesTestMixin, CreateView):
     model = models.Task
     fields = ['project','description' , 'is_complated']
     http_method_names=  ['post']
@@ -54,7 +66,14 @@ class TaskCreateView(LoginRequiredMixin , CreateView):
     def get_success_url(self):
         return reverse('project_update' , args=[self.object.project.id]) # type: ignore
     
-class TaskUpdateView(LoginRequiredMixin ,UpdateView):
+    def test_func(self):
+        project_id = self.request.POST.get('project')
+        if project_id:
+            project = get_object_or_404(models.Project, pk=project_id)
+            return project.user == self.request.user
+        return False
+    
+class TaskUpdateView(LoginRequiredMixin , UserPassesTestMixin , UpdateView):
     model = models.Task
     fields = ['is_complated']
     http_method_names=  ['post']
@@ -62,9 +81,17 @@ class TaskUpdateView(LoginRequiredMixin ,UpdateView):
     def get_success_url(self):
         return reverse('project_update' , args=[self.object.project.id]) # type: ignore  
     
-class TaskDeleteView(LoginRequiredMixin , DeleteView):
+    def test_func(self):
+        task = self.get_object()
+        return task.project.user == self.request.user  # type: ignore
+    
+class TaskDeleteView(LoginRequiredMixin ,UserPassesTestMixin , DeleteView):
     model = models.Task
     http_method_names=  ['post']
     
     def get_success_url(self):
-        return reverse('project_update' , args=[self.object.project.id]) # type: ignore      
+        return reverse('project_update' , args=[self.object.project.id]) # type: ignore     
+    
+    def test_func(self):
+        task = self.get_object()
+        return task.project.user == self.request.user  # type: ignore
