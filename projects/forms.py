@@ -1,5 +1,6 @@
 from django import forms
 from . import models
+from django.utils.translation import gettext_lazy as _
 
 class ProjectCreateForm(forms.ModelForm):
     class Meta:
@@ -22,3 +23,9 @@ class ProjectUpdateForm(forms.ModelForm):
             'status' : forms.Select(attrs={'class': 'form-select'})
             
         }        
+        labels = {
+            'category': _('Category'),
+            'title': _('Title'),
+            'description': _('Description'),
+            'status': _('Status'),
+        } 

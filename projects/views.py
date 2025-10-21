@@ -54,8 +54,8 @@ class ProjectDeleteView(LoginRequiredMixin , UserPassesTestMixin ,DeleteView):
     success_url = reverse_lazy('project_list')
     
     def test_func(self):
-        update = self.get_object()
-        return update.user == self.request.user # type: ignore
+        delete = self.get_object()
+        return delete.user == self.request.user # type: ignore
        
 class TaskCreateView(LoginRequiredMixin , UserPassesTestMixin, CreateView):
     model = models.Task
