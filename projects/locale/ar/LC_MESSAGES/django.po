@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-21 15:03+0300\n"
+"POT-Creation-Date: 2025-10-21 19:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,12 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-
-
-#COMMOND# python manage.py compilemessages
-
-
-
 #: .\projects\forms.py:27
 msgid "Category"
 msgstr ""
@@ -56,16 +50,25 @@ msgstr ""
 msgid "Canceled"
 msgstr ""
 
+#: .\projects\models.py:18
+msgid "Categories"
+msgstr ""
+
+#: .\projects\models.py:35 .\projects\templates\partials\header.html:24
+msgid "Projects"
+msgstr ""
+
+#: .\projects\models.py:45 .\projects\templates\project\update.html:13
+#: .\projects\templates\project\update.html:16
+msgid "Tasks"
+msgstr ""
+
 #: .\projects\templates\common\form.html:7
 msgid "Error!"
 msgstr ""
 
 #: .\projects\templates\partials\footer.html:4
 msgid "© 2025 All rights reserved to "
-msgstr ""
-
-#: .\projects\templates\partials\header.html:24
-msgid "Projects"
 msgstr ""
 
 #: .\projects\templates\partials\header.html:31
@@ -157,11 +160,6 @@ msgstr ""
 
 #: .\projects\templates\project\taskcreate.html:24
 msgid "Save"
-msgstr ""
-
-#: .\projects\templates\project\update.html:13
-#: .\projects\templates\project\update.html:16
-msgid "Tasks"
 msgstr ""
 
 #: .\projects\templates\project\update.html:64
