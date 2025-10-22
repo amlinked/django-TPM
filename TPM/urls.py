@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path , include
-from debug_toolbar.toolbar import debug_toolbar_urls  
+# from debug_toolbar.toolbar import debug_toolbar_urls  
 from django.utils.translation import gettext_lazy as _
 
 
@@ -28,4 +28,5 @@ urlpatterns = [
     path('', include('projects.urls')),
     path('accounts/' , include('accounts.urls')),
     path('admin/', admin.site.urls),
- ] + debug_toolbar_urls()
+ ]
+# + debug_toolbar_urls()

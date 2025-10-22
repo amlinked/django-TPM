@@ -10,10 +10,15 @@ from django.contrib.auth.decorators import login_required
 
 from django.urls import reverse_lazy
 
-class RegisterView(CreateView):
+class RegisterView( CreateView):
     form_class = UserRegisterForm
     template_name = 'registration/register.html'
     # success_url = reverse_lazy('login')
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('project_list')
+        return super().dispatch(request, *args, **kwargs)
+    
     def get_success_url(self) :
         login(self.request , self.object) # type: ignore
         return reverse_lazy('project_list')
